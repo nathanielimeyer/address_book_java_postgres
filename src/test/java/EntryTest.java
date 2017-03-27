@@ -34,6 +34,14 @@ public class EntryTest {
   }
 
   @Test
+  public void save_assignsIdToEntry() {
+    Entry myEntry = new Entry("Bill", "510-654-4720", "1569 Solano Ave, Berkeley, CA 94707", "bon@billgrahamfoundation.org");
+    myEntry.save();
+    Entry savedEntry = Entry.all().get(0);
+    assertEquals(myEntry.getId(), savedEntry.getId());
+  }
+
+  @Test
   public void all_returnsAllInstancesOfEntry_true() {
     Entry firstEntry = new Entry("Bonnie", "510-654-4720", "1569 Solano Ave, Berkeley, CA 94707", "bon@billgrahamfoundation.org");
     firstEntry.save();
@@ -41,5 +49,14 @@ public class EntryTest {
     secondEntry.save();
     assertEquals(true, Entry.all().get(0).equals(firstEntry));
     assertEquals(true, Entry.all().get(1).equals(secondEntry));
+  }
+
+  @Test
+  public void find_returnsEntryWithSameId_secondEntry() {
+    Entry firstEntry = new Entry("Bonnie", "510-654-4720", "1569 Solano Ave, Berkeley, CA 94707", "bon@billgrahamfoundation.org");
+    firstEntry.save();
+    Entry secondEntry = new Entry("Info", "510-644-2020", "2020 Addison Street, Berkeley, CA 94704", "info@freightandsalvage.org");
+    secondEntry.save();
+    assertEquals(Entry.find(secondEntry.getId()), secondEntry);
   }
 }
